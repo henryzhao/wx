@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #playBtn {
+            cursor: pointer;
+            display: none;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="playBtn">播放录音</button>
+    <button id="recordBtn">按住&nbsp;&nbsp;说话</button>
+
+    <input type="file" name="hello">
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        // wx.config({
+        //     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        //     appId: 'wx61afb7c6dddd0806',
+        //     timestamp: '1414587457', // 必填，生成签名的时间戳
+        //     nonceStr: 'Wm3WZYTPz0wzccnW', // 必填，生成签名的随机串
+        //     signature: '3f98ba6897286da310f01fb15794e110020545b1', // 必填，签名，见附录1
+        //     jsApiList: [
+        //         'playVoice',
+        //         'pauseVoice',
+        //         'stopVoice',
+        //         'uploadVoice',
+        //         'stopVoice',
+        //         'startRecord',
+        //         'stopRecord',
+        //         'onVoiceRecordEnd',
+        //         'onMenuShareAppMessage',
+        //         'translateVoice'
+        //     ]
+        // });
+        // var appSecret = 'e2166824d73b54c3ba3e894be8de23fb';
+        // var access_token = 'CnLnc2eOFz1WfmaC7LhT0QAUJVVSZELaY_8PeH_Zns-HIzk7J5FBGmd0RCOHNbXbnJDoFHPwWfiwVxqVcpcoCKR1O-Qj1-oBPLfp0iyr0PvvB0hb1xaqahwLkWxcCXSXXKVaAFAPCN';
+        // var jsapi_ticket = 'HoagFKDcsGMVCIY2vOjf9vMdO6F0CG1PyfcPcwp8kXDS3FcESCROcCaIqdCWC53WKLu-xs-KpTY9D7-WWgQ1mg';
+        // var url = 'http://www.zhuiqiuwang.net/wx/';
+        // wx.config({
+        //     debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        //     appId: 'wxf1d75feab13b1472',
+        //     timestamp: '1414587457', // 必填，生成签名的时间戳
+        //     nonceStr: 'Wm3WZYTPz0wzccnW', // 必填，生成签名的随机串
+        //     signature: 'c452624811fc259ad6d925f0d4f196c1e914a7da', // 必填，签名，见附录1
+        //     jsApiList: [
+        //         'playVoice',
+        //         'pauseVoice',
+        //         'stopVoice',
+        //         'uploadVoice',
+        //         'stopVoice',
+        //         'startRecord',
+        //         'stopRecord',
+        //         'onVoiceRecordEnd',
+        //         'onMenuShareAppMessage',
+        //         'translateVoice'
+        //     ]
+        // });
+
+
+        // wx.ready(function() {
+        //         wx.onVoiceRecordEnd({
+        //             // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+        //             complete: function(res) {
+        //                 playVoice(res.localId);
+        //                 uploadVoice(res.localId);
+        //             }
+        //         });
+
+        //         wx.onVoicePlayEnd({
+        //             success: function(res) {
+        //                 stopWave();
+        //             }
+        //         });
+        //     })
+        //     //报名页面录音按钮
+        // var startTime = 0;
+        // var endTime = 0;
+        // var recordTimer;
+        // $('#recordBtn').on('touchstart', function() {
+        //     // $("input[name='audio']").click();
+        //     event.preventDefault();
+        //     startTime = new Date().getTime();
+        //     recordTimer = setTimeout(function() {
+        //         wx.startRecord({
+        //             success: function() {
+        //                 localStorage.rainAllowRecord = 'true';
+        //             },
+        //             cancel: function() {
+        //                 alert('用户拒绝授权录音');
+        //             }
+        //         });
+        //     }, 300);
+        // });
+
+        // $('#recordBtn').on('touchend', function() {
+        //     event.preventDefault();
+        //     endTime = new Date().getTime();
+        //     if ((endTime - startTime) < 300) {
+        //         endTime = 0;
+        //         startTime = 0;
+        //         //小于300ms，不录音
+        //         clearTimeout(recordTimer);
+        //     } else {
+        //         wx.stopRecord({
+        //             success: function(res) {
+        //                 playVoice(res.localId);
+        //                 uploadVoice(res.localId);
+        //             },
+        //             fail: function(res) {
+        //                 alert(JSON.stringify(res));
+        //             }
+        //         });
+        //     }
+        // });
+
+        // function playVoice(localId) {
+        //     $('#playBtn').show();
+        //     $('#playBtn').click(function() {
+        //         wx.playVoice({
+        //             localId: localId // 需要播放的音频的本地ID，由stopRecord接口获得
+        //         });
+        //     })
+        // }
+        // //上传录音
+        // function uploadVoice(localId) {
+        //     //调用微信的上传录音接口把本地录音先上传到微信的服务器
+        //     //不过，微信只保留3天，而我们需要长期保存，我们需要把资源从微信服务器下载到自己的服务器
+        //     wx.uploadVoice({
+        //         localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+        //         isShowProgressTips: 1, // 默认为1，显示进度提示
+        //         success: function(res) {
+        //             //把录音在微信服务器上的id（res.serverId）发送到自己的服务器供下载。
+        //             $("input[name='audio']").val(localId);
+        //             // $.ajax({
+        //             //     url: '/downloadAudio',
+        //             //     type: 'post',
+        //             //     data: JSON.stringify(res),
+        //             //     dataType: "json",
+        //             //     success: function(data) {
+        //             //         console.log('文件已经保存到服务器');
+        //             //     },
+        //             //     error: function(xhr, errorType, error) {
+        //             //         console.log(error);
+        //             //     }
+        //             // });
+        //         }
+        //     });
+        // }
+        $.ajax({
+            type: 'get',
+            url: 'http://114.55.175.41:3000/getWxConfig',
+            success: function(data) {
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: data.appId,
+                    timestamp: data.timestamp, // 必填，生成签名的时间戳
+                    nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                    signature: data.signature, // 必填，签名，见附录1
+                    jsApiList: [
+                        'playVoice',
+                        'pauseVoice',
+                        'stopVoice',
+                        'uploadVoice',
+                        'stopVoice',
+                        'startRecord',
+                        'stopRecord',
+                        'onVoiceRecordEnd',
+                        'onMenuShareAppMessage',
+                        'translateVoice'
+                    ]
+                });
+
+                wx.ready(function() {
+                        wx.onVoiceRecordEnd({
+                            // 录音时间超过一分钟没有停止的时候会执行 complete 回调
+                            complete: function(res) {
+                                playVoice(res.localId);
+                                uploadVoice(res.localId);
+                            }
+                        });
+
+                        wx.onVoicePlayEnd({
+                            success: function(res) {
+                                stopWave();
+                            }
+                        });
+                    })
+                    //报名页面录音按钮
+                var startTime = 0;
+                var endTime = 0;
+                var recordTimer;
+                $('#recordBtn').on('touchstart', function() {
+                    // $("input[name='audio']").click();
+                    event.preventDefault();
+                    startTime = new Date().getTime();
+                    recordTimer = setTimeout(function() {
+                        wx.startRecord({
+                            success: function() {
+                                localStorage.rainAllowRecord = 'true';
+                            },
+                            cancel: function() {
+                                alert('用户拒绝授权录音');
+                            }
+                        });
+                    }, 300);
+                });
+
+                $('#recordBtn').on('touchend', function() {
+                    event.preventDefault();
+                    endTime = new Date().getTime();
+                    if ((endTime - startTime) < 300) {
+                        endTime = 0;
+                        startTime = 0;
+                        //小于300ms，不录音
+                        clearTimeout(recordTimer);
+                    } else {
+                        wx.stopRecord({
+                            success: function(res) {
+                                playVoice(res.localId);
+                                uploadVoice(res.localId);
+                            },
+                            fail: function(res) {
+                                alert(JSON.stringify(res));
+                            }
+                        });
+                    }
+                });
+
+                function playVoice(localId) {
+                    $('#playBtn').show();
+                    $('#playBtn').click(function() {
+                        wx.playVoice({
+                            localId: localId // 需要播放的音频的本地ID，由stopRecord接口获得
+                        });
+                    })
+                }
+                //上传录音
+                function uploadVoice(localId) {
+                    //调用微信的上传录音接口把本地录音先上传到微信的服务器
+                    //不过，微信只保留3天，而我们需要长期保存，我们需要把资源从微信服务器下载到自己的服务器
+                    wx.uploadVoice({
+                        localId: localId, // 需要上传的音频的本地ID，由stopRecord接口获得
+                        isShowProgressTips: 1, // 默认为1，显示进度提示
+                        success: function(res) {
+                            //把录音在微信服务器上的id（res.serverId）发送到自己的服务器供下载。
+                            $("input[name='audio']").val(localId);
+                            // $.ajax({
+                            //     url: '/downloadAudio',
+                            //     type: 'post',
+                            //     data: JSON.stringify(res),
+                            //     dataType: "json",
+                            //     success: function(data) {
+                            //         console.log('文件已经保存到服务器');
+                            //     },
+                            //     error: function(xhr, errorType, error) {
+                            //         console.log(error);
+                            //     }
+                            // });
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
