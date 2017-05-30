@@ -113,8 +113,8 @@
                         desc: 'scanQRCode desc',
                         success: function (res) {
                             var result = res.resultStr;
+                            result=result.substring(7,21);
                             alert(result);
-                            alert(result.substring(8,21));
                             queryBooks(result);
                         }
                     });
@@ -137,13 +137,14 @@
         $.ajax({
 
             type: 'post',
-            url: 'https://api.douban.com/v2/book/isbn/:'+result.substring(8,21),
+            url: 'https://api.douban.com/v2/book/isbn/:'+result,
             data: {
                 url: location.href.split('#')[0]
             },
             dataType: 'json',
             success : function (res) {
                 var bookdouban = res.data;
+                alert(res);
                 alert(bookdouban);
             }
         });
