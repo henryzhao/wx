@@ -115,7 +115,7 @@
                             var result = res.resultStr;
                             result=result.substring(7,21);
                             alert(result);
-                            queryBooks(result);
+                            document.location.href("submit.html?result="+result);
                         }
                     });
                 };
@@ -132,25 +132,25 @@
             });
         }
     });
-    function queryBooks(result) {
-
-        $.ajax({
-
-            type: 'post',
-            url: 'https://api.douban.com/v2/book/isbn/'+result,
-            data: {
-                url: location.href.split('#')[0]
-            },
-            dataType: 'json',
-            success : function (res) {
-                var bookdouban = res.data;
-                alert(res);
-                alert(bookdouban);
-            }
-        });
- //       alert(url);
-
-    }
+//    function queryBooks(result) {
+//
+//        $.ajax({
+//
+//            type: 'post',
+//            url: 'https://api.douban.com/v2/book/isbn/'+result,
+//            data: {
+//                url: location.href.split('#')[0]
+//            },
+//            dataType: 'json',
+//            success : function (res) {
+//                var bookdouban = res.data;
+//                alert(res);
+//                alert(bookdouban);
+//            }
+//        });
+// //       alert(url);
+//
+//    }
 </script>
 
 </html>
