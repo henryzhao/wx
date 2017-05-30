@@ -66,6 +66,7 @@
 
 </body>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="./assets/js/jquery.params.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="./assets/js/vue.min.js" type="text/javascript"></script>
@@ -114,8 +115,8 @@
                         success: function (res) {
                             var result = res.resultStr;
                             result=result.substring(7,21);
-                            alert(result);
-                            document.location.href("submit.html?result="+result);
+                            url = "submit.html?result="+result;//此处拼接内容
+                            window.location.href = url;
                         }
                     });
                 };

@@ -41,6 +41,7 @@
                         书名：
                     </label>
                     <label>
+                         <div id="result"></div>
                         {{ book.bookname}}
                     </label>
                 </span>
@@ -71,21 +72,21 @@
 
 </body>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="./assets/js/jquery.params.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="./assets/js/vue.min.js" type="text/javascript"></script>
 <script src="./assets/js/vue-resource.min.js" type="text/javascript"></script>
-<script src="./assets/js/books.js" type="text/javascript"></script>
+<!--<script src="./assets/js/books.js" type="text/javascript"></script>-->
 <script>
-    var thisURL = document.URL;
-    var getval =thisURL.split('?')[1];
-    alert(getval);
-    var showval= getval.split("=")[1];
-    alert(showval);
-    function  showvalf(){
-        alert(showval);
-        document.getElementById('ee').value=showval;
+    $(function(){
+        getData1();
+    });
+    function getData1(){
+        var result = $.query.get("result");
+        $("#result").text(result);
     }
+
 </script>
 
 </html>
