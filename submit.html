@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>国软图书管理系统</title>
     <link type="image/x-icon" rel="shortcut icon" href="./assets/images/favicon.ico" />
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel='stylesheet' href='./assets/css/style1.css'>
     <link href='//fonts.googleapis.com/css?family=Josefin+Sans:400,100,100italic,300,300italic,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
     <script type="application/x-javascript">
@@ -22,23 +21,29 @@
 
 <body>
 
-<div class="main" id="home_table">
+<div class="main">
     <div class="agile">
         <div class="agileits_main_grid">
-            <div>
-                <h1>国软图书管理系统</h1>
+            <div class="agileits_main_grid_left">
+                <h1 style="font-color:white;">国软图书管理系统</h1>
             </div>
+            <div class="agileits_main_grid_right">
+                <div class="menu">
+                    <span class="menu-icon"><a href="#"><img src="./assets/images/menu-icon.png" alt=""></a></span>
+                </div>
+            </div>
+            <div class="clear"> </div>
         </div>
         <div class="w3l">
             <div class="text">
-                <h1>目前共有图书{{booksNumber}}本</h1>
-                <div>
-                    <button class="btn btn-success btn-lg btn-block" id="scanQRCode1">扫码录入</button>
-                </div>
-                <br>
-                <div>
-                    <button class="btn btn-default btn-lg btn-block" id="scanQRCode0">查看列表</button>
-                </div>
+                <span>
+                    <label>
+                        书名：
+                    </label>
+                    <label>
+                        {{ book.bookname}}
+                    </label>
+                </span>
             </div>
             <div class="clear"></div>
         </div>
@@ -112,8 +117,7 @@
                         needResult: 1,
                         desc: 'scanQRCode desc',
                         success: function (res) {
-                            var result = res.resultStr;
-                            queryBooks(result);
+                            alert(JSON.stringify(res));
                         }
                     });
                 };
@@ -130,24 +134,6 @@
             });
         }
     });
-    function queryBooks(result) {
-
-        $.ajax({
-
-            type: 'post',
-            url: 'https://api.douban.com/v2/book/isbn/:'+result.substring(8,21),
-            data: {
-                url: location.href.split('#')[0]
-            },
-            dataType: 'json',
-            success : function (res) {
-                var bookdouban = res.data;
-                alert(bookdouban);
-            }
-        });
-        alert(url);
-
-    }
 </script>
 
 </html>
