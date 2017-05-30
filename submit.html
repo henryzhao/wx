@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta  http-equiv="content" charset="text/html;charset=UTF-8">
+    <meta  http-equiv="content" charset="text/html;charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>国软图书管理系统</title>
     <link type="image/x-icon" rel="shortcut icon" href="./assets/images/favicon.ico" />
+    <link rel='stylesheet' href='./assets/css/bootstrap.min.css'>
     <link rel='stylesheet' href='./assets/css/style1.css'>
-    <link href='//fonts.googleapis.com/css?family=Josefin+Sans:400,100,100italic,300,300italic,400italic,600,600italic,700,700italic' rel='stylesheet' type='text/css'>
     <script type="application/x-javascript">
         addEventListener("load", function() {
             setTimeout(hideURLbar, 0);
@@ -24,29 +24,88 @@
 <div class="main" id="book_detail">
     <div class="agile">
         <div class="agileits_main_grid">
-            <div class="agileits_main_grid_left">
+            <div class="">
                 <h1 style="font-color:white;">国软图书管理系统</h1>
-            </div>
-            <div class="agileits_main_grid_right">
-                <div class="menu">
-                    <span class="menu-icon"><a href="#"><img src="./assets/images/menu-icon.png" alt=""></a></span>
-                </div>
             </div>
             <div class="clear"> </div>
         </div>
         <div class="w3l">
+            <form id="books" name="books" method="post" action="books.html">
             <div class="text">
-                <span>
-                    <label>
-                        书名：
-                    </label>
-                    <label>
-                        {{ book.bookname}}
-                    </label>
-                </span>
+                <table>
+                <tr>
+                    <td>
+                        <h1>
+                            图片：
+                        </h1>
+                    </td>
+                    <td>
+                        <img :src="book.pic"><input  type="hidden" name="pic" v-model="book.pic" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h1>
+                            书号：
+                        </h1>
+                    </td>
+                    <td>
+                        <input  style="border:0px;background-color:transparent;" name="code" v-model="book.isbnNumber" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h1>
+                            书名：
+                        </h1>
+                    </td>
+                    <td>
+                        <input  style="border:0px;background-color:transparent;" name="bookname" v-model="book.title" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h1>
+                            价格：
+                        </h1>
+                    </td>
+                    <td>
+                        <input  style="border:0px;background-color:transparent;" name="price" v-model="book.price" >元
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h1>
+                            年份：
+                        </h1>
+                    </td>
+                    <td>
+                        <input  style="border:0px;background-color:transparent;" name="years" v-model="book.years" >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h1>
+                            作者：
+                        </h1>
+                    </td>
+                    <td>
+                        <input  type="hidden" name="type" v-model="book.type" >{{book.author}}
+                    </td>
+                </tr>
+                    <tr>
+                        <td><h1>操作</h1></td>
+                        <td><button class="btn btn-success" @click="submitForm">上传</button></td>
+                    </tr>
+
+                </table>
+
             </div>
+
+            </form>
             <div class="clear"></div>
         </div>
+        <div id="divCustomers"></div>
         <div class="footer">
             <p>&copy; 2017 Wuhan University </p>
             <p>All Rights Reserved | Design by <a href="http://henryzhao.github.io">ZhaoYuqi.</a></p>
@@ -79,33 +138,165 @@
 <!--<script src="./assets/js/books.js" type="text/javascript"></script>-->
 <script>
 
-    $(function(){
-         var a = getData1();
-         queryBooks(a);
-         alert(a);
-    });
-    function getData1(){
-        var result = $.query.get("result");
-        $("#result").text(result);
-        return  result;
-    }
-    function queryBooks(result) {
-        $.ajax({
+    var vm1 = new Vue({
 
-            type: 'post',
-            url: 'https://api.douban.com/v2/book/isbn/'+result,
-            data: {
-                url: location.href.split('#')[0]
+        el:'#book_detail',
+        data:{
+            book:{
+                title:'',
+                price:'',
+                isbnNumber:'',
+                pic:'',
+                years:'',
+                author:'',
+                type:'1'
             },
-            dataType: 'json',
-            success : function (res) {
-                var bookdouban = res.data;
-                alert(res);
-                alert(bookdouban);
-            }
-        });
 
+        },
+        methods:{
+
+            submitForm:function () {
+
+                $.ajax({
+                    type: "POST",
+                    url:'http://221.180.249.223:8888/quick4j/rest/books/books',
+                    data:$('#books').serialize(),
+                    async: false,
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                        //接收后台返回的结果
+                        if (data.success==true){
+                            alert("上传成功");
+                            //url = "submit.html?result="+result;//此处拼接内容
+                            window.location.href = "books.html";
+                        }else {
+                            alert("上传失败");
+                        }
+                    }
+                });
+            }
+
+        },
+        mounted: function() {
+            // alert('a');
+            this.$nextTick(function () {
+                //alert('b');
+                this.book.isbnNumber = $.query.get("result");
+//                this.book.isbnNumber = '9787111075660';
+                this.url = 'https://api.douban.com/v2/book/isbn/'+this.book.isbnNumber;
+                var _self = this;
+//                this.$http.jsonp(this.url,
+//                    {//请求参数
+//                        params: {
+//                            isbn:this.isbnNumber
+//                        },
+//                        jsonp:'cb'
+//                    }).then(function(res){
+//                    console.log(JSON.parse(res.bodyText).s)
+//                    this.book = JSON.parse(res.bodyText).s
+//                    console.log(this.book)
+//                },function(){
+//                    //console.log(1)
+//                });
+//                $.get(this.url,function (res) {
+//                    _self.book = res;
+//                    alert(res);
+//                    alert(res.body);
+//                });
+//                this.$http.get(this.url).then(function(res) {
+//                    console.log(res);
+//                    console.log(res.data);
+//                    //alert('c');
+//                   // this.booksNumber = res.data;
+//                    //console.log(this.booksNumber);
+//                    //console.log(this.booksNumber);
+//                }).catch(function(err) {
+//                    // console.log('fail' + status + "," + request);
+//                    console.log(err);
+//                })
+                $.ajax({
+                    type: 'get',
+                    async: false,
+                    url: this.url,
+                    dataType: 'jsonp',
+//                    //传递给请求处理程序，用以获得jsonp回调函数名的参数名(默认为:callback)
+//                    jsonp: "jsoncallback",
+                    //自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
+                    jsonpCallback:"success_jsonpCallback",
+                    //成功获取跨域服务器上的json数据后,会动态执行这个callback函数
+                    success : function (res) {
+                        _self.book.title = res.title;
+                        _self.book.price = parseFloat(res.price.substring(0,res.price.length-1));
+                        _self.book.pic = res.image;
+                        _self.book.years = res.pubdate;
+                        _self.book.author = res.author[0];
+
+                        //_self.book = JSON.parse(res.bodyText).s
+
+//                        var html = '<ul>';
+//                        for(var i = 0; i < res.length; i++)
+//                        {
+//                            html += '<li>' + res[i] + '</li>';
+//                        }
+//                        html += '</ul>';
+//                        $('#divCustomers').html(html);
+
+//                        console.log(res);
+//                        for(var i in res) {
+//                            console.log(i+":"+res[i]);//循环输出a:1,b:2,etc.
+//                        }
+//                        for(var i in _self.book) {
+//                            console.log(i+":"+_self.book[i].get);//循环输出a:1,b:2,etc.
+//                        }
+//                        console.log(_self.book);
+                    }
+                });
+//                $.getJSON(this.url,
+//                    function (data) {
+//                        alert(data);
+//                        console.log(data);
+//                    }
+//                );
+            })
         }
+
+    });
+    function getStr(str) {
+        var result = str.match(/\"\w*\"/g);
+        return result.map(function(element){
+            return element.replace(/\"/g, '');
+        });
+    }
+
+//    $(function(){
+//         var a = getData1();
+//         queryBooks(a);
+//    });
+//    function getData1(){
+////        var result = $.query.get("result");
+//        var result = '9787111075660';
+//        alert(result);
+//        $("#result").text(result);
+//        return  result;
+//    }
+//    function queryBooks(result) {
+//        $.ajax({
+//
+//            type: 'get',
+//            async: false,
+//            url: 'https://api.douban.com/v2/book/isbn/'+result,
+//            dataType: 'jsonp',
+//            success : function (res) {
+//                //var bookdouban = res.data;
+//                console.log(res);
+//                alert(res);
+//                //alert(bookdouban);
+//            }
+//        });
+//
+//        }
 
 </script>
 
