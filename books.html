@@ -113,8 +113,8 @@
                         desc: 'scanQRCode desc',
                         success: function (res) {
                             var result = res.resultStr;
-                            console.log(result);
-                            console.log(result.substring(8,21));
+                            alert(result);
+                            alert(result.substring(8,21));
                             queryBooks(result);
                         }
                     });
@@ -147,7 +147,7 @@
                 alert(bookdouban);
             }
         });
-        alert(url);
+ //       alert(url);
 
     }
 </script>
