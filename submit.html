@@ -21,7 +21,7 @@
 
 <body>
 
-<div class="main">
+<div class="main" id="book_detail">
     <div class="agile">
         <div class="agileits_main_grid">
             <div class="agileits_main_grid_left">
@@ -41,7 +41,6 @@
                         书名：
                     </label>
                     <label>
-                         <div id="result"></div>
                         {{ book.bookname}}
                     </label>
                 </span>
@@ -79,13 +78,34 @@
 <script src="./assets/js/vue-resource.min.js" type="text/javascript"></script>
 <!--<script src="./assets/js/books.js" type="text/javascript"></script>-->
 <script>
+
     $(function(){
-        getData1();
+         var a = getData1();
+         queryBooks(a);
+         alert(a);
     });
     function getData1(){
         var result = $.query.get("result");
         $("#result").text(result);
+        return  result;
     }
+    function queryBooks(result) {
+        $.ajax({
+
+            type: 'post',
+            url: 'https://api.douban.com/v2/book/isbn/'+result,
+            data: {
+                url: location.href.split('#')[0]
+            },
+            dataType: 'json',
+            success : function (res) {
+                var bookdouban = res.data;
+                alert(res);
+                alert(bookdouban);
+            }
+        });
+
+        }
 
 </script>
 
