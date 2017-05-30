@@ -137,10 +137,8 @@
         $.ajax({
 
             type: 'post',
-            url: 'https://api.douban.com/v2/book/isbn/:'+result,
-            data: {
-                url: location.href.split('#')[0]
-            },
+            url: 'https://api.douban.com/v2/book/isbn/'+result,
+            data: data,
             dataType: 'json',
             success : function (res) {
                 var bookdouban = res.data;
