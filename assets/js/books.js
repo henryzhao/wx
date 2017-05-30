@@ -12,15 +12,16 @@ var vm = new Vue({
 
     },
     mounted: function() {
-        alert('a');
+        // alert('a');
         this.$nextTick(function () {
             //alert('b');
-            this.$http.get('http://221.180.249.233:8888/quick4j/rest/books/number').then(function(res) {
+            this.$http.get('http://www.zhuiqiuwang.net:8888/quick4j/rest/books/number').then(function(res) {
                 console.log(res.data);
-                  alert('c');
+                  //alert('c');
                 this.booksNumber = res.data;
+                console.log(this.booksNumber);
             }).catch(function(err) {
-                console.log('fail' + status + "," + request);
+                // console.log('fail' + status + "," + request);
                 console.log(err);
             })
         })
