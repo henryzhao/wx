@@ -29,37 +29,42 @@
                 <h1>国软图书管理系统</h1>
             </div>
         </div>
+        <div >
+            <img src="assets/images/bookbg.jpg"/>
+        </div>
         <div class="w3l">
             <div class="text">
-                <h1>目前共有图书{{booksNumber}}本</h1>
+                <h1 style="text-align: center">目前共有图书{{booksNumber}}本</h1>
                 <div>
                     <button class="btn btn-success btn-lg btn-block" id="scanQRCode1">扫码录入</button>
                 </div>
                 <br>
                 <div>
-                    <button class="btn btn-default btn-lg btn-block" id="scanQRCode0">查看列表</button>
+                    <button class="btn btn-default btn-lg btn-block" id="scanQRCode0" href="booklist.html">查看列表</button>
                 </div>
             </div>
             <div class="clear"></div>
         </div>
-        <div class="footer">
-            <p>&copy; 2017 Wuhan University </p>
-            <p>All Rights Reserved | Design by <a href="http://henryzhao.github.io">ZhaoYuqi.</a></p>
-        </div>
-        <div class="wthree">
-            <div class="back">
-                <a href="#">返回首页</a>
+        <div class="navbar-fixed-bottom">
+            <div class="footer ">
+                <p>&copy; 2017 Wuhan University </p>
+                <p>All Rights Reserved | Design by <a href="http://henryzhao.github.io">ZhaoYuqi.</a></p>
             </div>
-            <div class="social-icons w3agile">
-                <ul>
-                    <li>Follow us on :</li>
-                    <li><a href="#" class="facebook"><img src="./assets/images/fb.png" title="facebook" alt="facebook"></a></li>
-                    <li><a href="#" class="twitter"><img src="./assets/images/tw.png" title="twitter" alt="twitter"></a></li>
-                    <li><a href="#" class="googleplus"><img src="./assets/images/gp.png" title="googleplus" alt="googleplus"></a></li>
-                    <div class="clear"></div>
-                </ul>
+            <div class="wthree">
+                <div class="back">
+                    <a href="#">返回首页</a>
+                </div>
+                <div class="social-icons w3agile">
+                    <ul>
+                        <li>Follow us on :</li>
+                        <li><a href="#" class="facebook"><img src="./assets/images/fb.png" title="facebook" alt="facebook"></a></li>
+                        <li><a href="#" class="twitter"><img src="./assets/images/tw.png" title="twitter" alt="twitter"></a></li>
+                        <li><a href="#" class="googleplus"><img src="./assets/images/gp.png" title="googleplus" alt="googleplus"></a></li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="clear"></div>
         </div>
     </div>
 </div>
@@ -106,7 +111,7 @@
             wx.ready(function() {
                 // 9.1.1 扫描二维码并返回结果
                 $('#scanQRCode0').onclick = function () {
-                    wx.scanQRCode();
+                    window.location.href = 'booklist.html';
                 };
                 document.querySelector('#scanQRCode1').onclick = function () {
                     wx.scanQRCode({
