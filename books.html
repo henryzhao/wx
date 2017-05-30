@@ -138,7 +138,9 @@
 
             type: 'post',
             url: 'https://api.douban.com/v2/book/isbn/'+result,
-            data: data,
+            data: {
+                url: location.href.split('#')[0]
+            },
             dataType: 'json',
             success : function (res) {
                 var bookdouban = res.data;
