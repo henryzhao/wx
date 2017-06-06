@@ -15,7 +15,7 @@ var vm = new Vue({
         // alert('a');
         this.$nextTick(function () {
             //alert('b');
-            this.$http.get('http://www.zhuiqiuwang.net:8888/quick4j/rest/books/number').then(function(res) {
+            this.$http.get('http://software.whu.edu.cn:8080/quick4j/rest/books/number').then(function(res) {
                 console.log(res.data);
                   //alert('c');
                 this.booksNumber = res.data;
