@@ -2,7 +2,7 @@
  * Created by Angel on 2017/5/30.
  */
 var _pageNo=1;
-var _pageSize=3000;
+var _pageSize=6000;
 var vm = new Vue({
 
     el:"#list_table",
