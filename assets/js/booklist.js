@@ -289,7 +289,7 @@ function Cleanup() {
 }
 var tableToExcel = (function() {
     var uri = 'data:application/vnd.ms-excel;base64,',
-        template = '<html><head><meta charset="UTF-8"></head><body><table>{table}</table></body></html>',
+        template = '<html><head><meta charset="UTF-8"></head><body><table border="1">{table}</table></body></html>',
         base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
         format = function(s, c) {
             return s.replace(/{(\w+)}/g,
